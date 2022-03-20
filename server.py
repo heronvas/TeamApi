@@ -2,7 +2,8 @@ from flask import Flask, request
 import pandas as pd
 import numpy as np
 import sqlite3
-import sys
+import requests
+#import sys
 app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
@@ -22,7 +23,10 @@ def hello_world():
             for i in data[3:]:
                 start = pd.DataFrame()
                 for j in range(5):
-                    org = pd.read_html(i[2]+"/"+i[4] +"/"+keywords[j]+i[3])
+                    print(i[2]+"/"+i[4] +"/"+keywords[j]+i[3])
+                    r = requests.get(i[2]+"/"+i[4] +"/"+keywords[j]+i[3])
+                    print(r.status_code)
+                    org = pd.read_html(r.text)
                     #print(i[2] +i[4] +"/"+keywords[j]+i[3])
                     #print(org[0])
                     temp = org[0]
